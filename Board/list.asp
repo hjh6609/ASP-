@@ -118,8 +118,21 @@
        <a href="content.asp?seq=<%=objRs(0)%>"><%=objRs(3)%></a>
     </td>
     <td><%=objRs(1)%></td> 
-	<td><%If IsNull(objRs(4)) Then response.write "날짜없음" End If%></td> <!-- 날짜 -->
-	<td><%If IsNull(objRs(5)) Then response.write "0" End If %></td> <!-- 조회수 -->
+	<td>
+		<!-- 날짜 -->
+		<%If IsNull(objRs(4)) Then 
+			response.write "날짜없음" 
+		  Else 
+			response.write(Replace(Mid(objRs(4),1,10),"-",".")) 
+		  End If%></td> 
+	<td>
+		<!-- 조회수 -->
+		<%If IsNull(objRs(5)) Then 
+			response.write "0" 
+		  Else 
+			response.write(objRs(5))
+		  End If %>
+	</td> 
   </tr>
  <%
 				  objRs.MoveNext

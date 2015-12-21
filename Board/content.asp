@@ -38,40 +38,84 @@
    WriteDate = objRs(4)
    WriteEnt = objRs(5)
 
-   'strContent = Replace(strContent, vbLf, vbLf & "<br>")
+   objRs.Close
+   Set objRs = nothing
+
+   objDbConn.Close
+   Set objDBConn = nothing
+
+   strContent = Replace(strContent, vbLf, vbLf & "<br>")
 %>
 <!DOCTYPE html>
 <head>
-<title>게시판 - 내용보기</title>
+	<title>게시판 - 내용보기</title>
+
+	<!-- Bootstrap core CSS -->
+    <link href="../BootStrap/bootstrap-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../BootStrap/bootstrap-dist/js/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="../BootStrap/bootstrap-dist/js/ie-emulation-modes-warning.js"></script>
+
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../bootstrap-dist/js/ie10-viewport-bug-workaround.js"></script>
+
 </head>
 <body>
-<table border="0" align="center">
-   <tr>
-       <td>이름</td>
-       <td><%=strName%></td>
-	   <td>조회수</td>
-	   <td colspan="3"><%If IsNull(WriteEnt) Then response.write "0" End If %></td>
-   </tr>
-   <tr>
-       <td>Email</td>
-       <td><a href="mailto:<%=strEmail%>"><%=strEmail%></a></td>
-   </tr>
-   <tr>
-        <td>제목</td>
-        <td colspan="3"><%=strSubject%></td>
-		<td>등록일</td>
-		<td colspan="3"><%If IsNull(WriteDate) Then response.write "날짜없음" End If %></td>
-   </tr>
-   <tr>
-       <td colspan="6" style="padding:15px;"><%=strContent%></td>
-   </tr>
-   <tr>
-       <td colspan="6" align="center">
-           <a href="edit.asp?seq=<%=intSeq%>">수정하기</a>
-           <a href="list.asp">목록으로</a>
-           <a href="delete.asp?seq=<%=intSeq%>">삭제하기</a>
-       </td>
-   </tr>
-</table>
+<div class="container">
+  <div class="header">
+	 <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="javascript:alert('1')">Home</a></li>
+            <li role="presentation"><a href="javascript:alert('2')">About</a></li>
+            <li role="presentation"><a href="javascript:alert('3')">Contact</a></li>
+          </ul>
+     </nav>
+        <h3 class="text-muted">First ASP Board</h3>
+    </div>
+	<table class="table table-striped">
+	   <tr>
+		   <td>이름</td>
+		   <td><%=strName%></td>
+		   <td>조회수</td>
+		   <td colspan="3">
+				<%If IsNull(WriteEnt) Then 
+					response.write "0" 
+				  Else
+					response.write(WriteEnt)
+				  End If %>
+			</td>
+	   </tr>
+	   <tr>
+		   <td>Email</td>
+		   <td colspan="5"><a href="mailto:<%=strEmail%>"><%=strEmail%></a></td>
+	   </tr>
+	   <tr>
+			<td>제목</td>
+			<td colspan="3"><%=strSubject%></td>
+			<td>등록일</td>
+			<td colspan="3">
+				<%If IsNull(WriteDate) Then 
+					response.write "날짜없음" 
+				  Else
+					response.write(Replace(Mid(WriteDate,1,10),"-","."))
+				  End If %>
+			</td>
+	   </tr>
+	   <tr>
+		   <td colspan="6" style="padding:15px;"><%=strContent%></td>
+	   </tr>
+	   <tr>
+		   <td colspan="6" align="center">
+			   <a href="edit.asp?seq=<%=intSeq%>">수정하기</a>
+			   <a href="list.asp">목록으로</a>
+			   <a href="delete.asp?seq=<%=intSeq%>">삭제하기</a>
+		   </td>
+	   </tr>
+	 </table>
+	 <footer class="footer">
+       <p>&copy; ASP Board. 201512 </p>
+     </footer>
+  </div>
 </body>
 </html>
