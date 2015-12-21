@@ -13,12 +13,14 @@
    Set objDBConn = Server.CreateObject("ADODB.Connection")
    objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
 
-   strSQL = " INSERT INTO board(strName, strPassword, strEmail, strSubject, strContent) VALUES ("
+   strSQL = " INSERT INTO board(strName,strPassword,strEmail,strSubject,strContent,WriteDate,WriteEnt) VALUES ("
    strSQL = strSQL & "'" & strName      & "',"
    strSQL = strSQL & "'" & strEmail       & "',"
    strSQL = strSQL & "'" & strPassword & "',"
    strSQL = strSQL & "'" & strSubject    & "',"
-   strSQL = strSQL & "'" & strContent &     "')"
+   strSQL = strSQL & "'" & strContent & "',"
+   strSQL = strSQL & "getdate(),"
+   strSQL = strSQL & "0)"  
 
    objDBConn.Execute strSQL
 

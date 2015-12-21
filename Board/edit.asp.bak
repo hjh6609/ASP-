@@ -34,51 +34,72 @@
 %>
 <html>
 <head>
-<title>태지의 게시판 - 수정하기</title>
+	<title>Board : Edit</title>
+	<!-- Bootstrap core CSS -->
+	<link href="../BootStrap/bootstrap-dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link href="../BootStrap/bootstrap-dist/js/jumbotron-narrow.css" rel="stylesheet">
+
+	<script src="../BootStrap/bootstrap-dist/js/ie-emulation-modes-warning.js"></script>
+
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="../bootstrap-dist/js/ie10-viewport-bug-workaround.js"></script>
 </head>
 <body>
-<form name="editForm" method="post" action="edit_ok.asp?seq=<%=intSeq%>">
-<table border cellspacing="0" width="500">
-  <tr>
-    <td colspan="2" align="center"><b>글을 수정합니다</b></td>
-  </tr>
-  <tr>
-    <td align="center">이름</td>
-    <td>
-      <input type="text" name="userName" size="15" value="<%=strName%>">
-    </td>
-  </tr>
-  <tr>
-    <td align="center">Email</td>
-    <td>
-      <input type="text" name="userEmail" size="50" value="<%=strEmail%>">
-    </td>
-  </tr>
-  <tr>
-    <td align="center">제목</td>
-    <td>
-      <input type="text" name="subject" size="50" value="<%=strSubject%>">
-    </td>
-  </tr>
-  <tr>
-    <td align="center">내용</td>
-    <td>
-      <textarea name="content" cols="50" rows="10"><%=strContent%></textarea>
-   </td>
-  </tr>
-  <tr>
-    <td align="center">비밀번호</td>
-    <td>
-      <input type="password" name="userPwd" size="15">
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center">
-      <input type="submit" value="작성 완료">&nbsp;&nbsp;
-      <input type="button" onClick="javascript:history.back();" value="이전으로">
-    </td>
-  </tr>
-</table>
-</form>
+<div class="container">
+	<div class="header">
+		<nav>
+		<ul class="nav nav-pills pull-right">
+			<li role="presentation" class="active"><a href="javascript:alert('1')">Home</a></li>
+			<li role="presentation"><a href="javascript:alert('2')">About</a></li>
+			<li role="presentation"><a href="javascript:alert('3')">Contact</a></li>
+		</ul>
+		</nav>
+		<h3 class="text-muted">First ASP Board</h3>
+	</div>
+	<form name="editForm" method="post" action="edit_ok.asp?seq=<%=intSeq%>">
+		<table class="table">
+		  <tr>
+			<td colspan="2" align="center"><b>글을 수정합니다</b></td>
+		  </tr>
+		  <tr>
+			<td align="center">이름</td>
+			<td>
+			  <input type="text" name="userName" size="15" value="<%=strName%>">
+			</td>
+		  </tr>
+		  <tr>
+			<td align="center">Email</td>
+			<td>
+			  <input type="text" name="userEmail" size="50" value="<%=strEmail%>">
+			</td>
+		  </tr>
+		  <tr>
+			<td align="center">제목</td>
+			<td>
+			  <input type="text" name="subject" size="50" value="<%=strSubject%>">
+			</td>
+		  </tr>
+		  <tr>
+			<td align="center">내용</td>
+			<td>
+			  <textarea name="content" cols="50" rows="10"><%=strContent%></textarea>
+		   </td>
+		  </tr>
+		  <tr>
+			<td align="center">비밀번호</td>
+			<td>
+			  <input type="password" name="userPwd" size="15">
+			</td>
+		  </tr>
+		  <tr>
+			<td colspan="2" align="center">
+			  <input type="submit" value="작성 완료">&nbsp;&nbsp;
+			  <input type="button" onClick="javascript:history.back();" value="이전으로">
+			</td>
+		  </tr>
+		</table>
+	</form>
+</div>
 </body>
 </html>

@@ -1,0 +1,34 @@
+if exists (select  from dbo.sysobjects where id = object_id(N'[dbo].[AspBoard]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[AspBoard]
+GO
+
+if exists (select  from dbo.sysobjects where id = object_id(N'[dbo].[AspBoard_pds]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[AspBoard_pds]
+GO
+
+CREATE TABLE [dbo].[AspBoard] (
+ [BD_SEQ] [int] IDENTITY (1, 1) NOT NULL ,
+ [BD_THREAD] [int] NOT NULL ,
+ [BD_DEPTH] [int] NOT NULL ,
+ [BD_ID] [varchar] (20) COLLATE Korean_Wansung_CI_AS NULL ,
+ [BD_NAME] [varchar] (20) COLLATE Korean_Wansung_CI_AS NULL ,
+ [BD_EMAIL] [varchar] (30) COLLATE Korean_Wansung_CI_AS NULL ,
+ [BD_SUBJECT] [varchar] (200) COLLATE Korean_Wansung_CI_AS NULL ,
+ [BD_CONTENT] [text] COLLATE Korean_Wansung_CI_AS NULL ,
+ [BD_PASSWD] [varchar] (20) COLLATE Korean_Wansung_CI_AS NULL ,
+ [BD_INPUTDATE] [smalldatetime] NOT NULL ,
+ [BD_IP] [varchar] (15) COLLATE Korean_Wansung_CI_AS NOT NULL ,
+ [BD_READCOUNT] [smallint] NULL ,
+ [BD_STATE] [int] NOT NULL 
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+CREATE TABLE [dbo].[AspBoard_pds] (
+ [FILE_SEQ] [int] IDENTITY (1, 1) NOT NULL ,
+ [FILE_BD_SEQ] [int] NOT NULL ,
+ [FILE_BD_TABLE] [varchar] (20) COLLATE Korean_Wansung_CI_AS NULL ,
+ [FILE_NAME] [varchar] (100) COLLATE Korean_Wansung_CI_AS NULL ,
+ [FILE_SIZE] [int] NULL 
+) ON [PRIMARY]
+GO
+
