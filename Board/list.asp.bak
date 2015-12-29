@@ -1,6 +1,13 @@
 <%
    Option Explicit '이 페이지에서 사용되는 모든 변수들은 반드시 선언되어진 이후에 사용 될 수 있다'
  
+   '쿠키 값을 가지고 있으면 바로 logincheck.asp로 보낸다.
+   '즉 한번이라도 인증을 한 경우라면...
+   'if request.Cookies("SavedLogin").HasKeys then 
+   '		response.redirect "list.asp?cookie=1" 
+		'Response.Cookies("SavedLogin").Expires = Date-1000  
+   'end if 
+
    Dim objDBConn
    Dim objRs
    Dim strSQL
@@ -49,7 +56,7 @@
 
 
    strSQL = "SELECT Top " & intNowPage * intPageSize & " inx"   ' objRs(0) - 번호
-   strSQL = strSQL & ",strName"                 ' objRs(1) - 이름
+   strSQL = strSQL & ",strID"                 ' objRs(1) - 이름
    strSQL = strSQL & ",strEmail"                ' objRs(2) - 메일주소
    strSQL = strSQL & ",strSubject"              ' objRs(3) - 제목
    strSQL = strSQL & ",WriteDate"               ' objRs(4) - 날짜
@@ -78,6 +85,7 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	
 	<!-- 스크롤 내리면서 로딩 -->
+	<!--
 	<script type="text/javascript">
 		$( document ).ready( function() {
 			$( 'img' ).removeAttr( 'style' );
@@ -102,7 +110,7 @@
 				}  
 		});  
 	</script>
-
+	
 	<style>
 		img {
 		  width: inherit;
@@ -110,15 +118,20 @@
 		  height: auto;
 		}
 	</style>
+	-->	
+	<!-- 스크롤 내리면서 로딩 -->
  </head>
  <body>
  <div class="container">
   <div class="header">
 	 <nav>
           <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="javascript:alert('1')">Home</a></li>
-            <li role="presentation"><a href="javascript:alert('2')">About</a></li>
-            <li role="presentation"><a href="javascript:alert('3')">Contact</a></li>
+            <li role="presentation" class="active"><a href="/list.asp">Board</a></li>
+            <li role="presentation"><a href="/login.asp">Login</a></li>
+			<%If request.Cookies("SavedLogin").HasKeys Then%>
+				<li role="presentation"><a href="/logout.asp">LogOut</a></li>
+			<%End if%>
+			<li role="presentation"><a href="/sign_up.asp">Sign Up</a></li>
           </ul>
      </nav>
         <h3 class="text-muted">First ASP Board</h3>
@@ -137,7 +150,7 @@
 			 <!-- Searching -->
 			 <td align="right">
 				  <select name="search_word">
-					  <option value="strName">이름</option>
+					  <option value="strID">작성자</option>
 					  <option value="strSubject">제목</option>
 					  <option value="strContent">내용</option>
 				  </select>
@@ -249,7 +262,8 @@
 	 <a href="list.asp">목록으로&nbsp;
 	 <% End If %> 
 	 <a href="regist.asp">글쓰기</a>
-	 </div>   
+	 </div>
+		<!--
 		<div class="wrdLatest">
 			<table class="table table-condensed">
 				<tr>
@@ -258,13 +272,13 @@
 					</td>
 				</tr>
 			</table>
-		</div>    
+		</div>
+		-->
 		<!--
 		<div class="wrdLatest" id=9>content</div>  
 		<div class="wrdLatest" id=8>content</div>
 		-->
-		<div id="lastPostsLoader"></div>
-
+		<!-- <div id="lastPostsLoader"></div> -->
 	</div>
  </body>
 </html> 

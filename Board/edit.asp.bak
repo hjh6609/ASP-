@@ -4,7 +4,7 @@
       Dim objDBConn, objRs
       Dim strSQL
       Dim intSeq
-      Dim strName, strEmail, strSubject, strContent
+      Dim strID, strEmail, strSubject, strContent
 
       intSeq = Request.QueryString("seq")
 
@@ -13,7 +13,7 @@
 
       objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
 
-      strSQL = "Select strName"                    ' objRs(0) - 이름
+      strSQL = "Select strID"                    ' objRs(0) - 이름
       strSQL = strSQL & ",strEmail"                ' objRs(1) - 이메일
       strSQL = strSQL & ",strSubject"              ' objRs(2) - 제목
       strSQL = strSQL & ",strContent"              ' objRs(3) - 내용
@@ -22,7 +22,7 @@
 
       objRs.Open strSQL, objDBConn
 
-      strName = objRs("strName")
+      strID = objRs("strID")
       strEmail = objRs("strEmail")
       strSubject = objRs("strSubject")
       strContent = objRs("strContent")
@@ -63,9 +63,9 @@
 			<td colspan="2" align="center"><b>글을 수정합니다</b></td>
 		  </tr>
 		  <tr>
-			<td align="center">이름</td>
+			<td align="center">아이디</td>
 			<td>
-			  <input type="text" name="userName" size="15" value="<%=strName%>">
+			  <input type="text" name="userID" size="15" value="<%=strID%>">
 			</td>
 		  </tr>
 		  <tr>

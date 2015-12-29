@@ -29,8 +29,8 @@
 				<td colspan="2" align="center"><b>글을 적어주세요</b></td>
 			</tr>
 			<tr>
-				<td align="center">이름</td>
-				<td><input type="text" name="userName" size="15"></td>
+				<td align="center">아이디</td>
+				<td><input type="text" name="userID" size="15"></td>
 			</tr>
 			<tr>
 				<td align="center">비밀번호</td>

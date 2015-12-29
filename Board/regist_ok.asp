@@ -2,9 +2,9 @@
   
    Dim objDBConn
    Dim strSQL
-   Dim strName, strPassword, strEmail, strSubject, strContent
+   Dim strID, strPassword, strEmail, strSubject, strContent
   
-   strName       = Request.Form("userName")
+   strID       = Request.Form("userID")
    strPassword  = Request.Form("userPwd")
    strEmail        = Request.Form("userEmail")
    strSubject     = Request.Form("subject")
@@ -13,10 +13,10 @@
    Set objDBConn = Server.CreateObject("ADODB.Connection")
    objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
 
-   strSQL = " INSERT INTO board(strName,strPassword,strEmail,strSubject,strContent,WriteDate,WriteEnt) VALUES ("
-   strSQL = strSQL & "'" & strName      & "',"
-   strSQL = strSQL & "'" & strEmail       & "',"
-   strSQL = strSQL & "'" & strPassword & "',"
+   strSQL = " INSERT INTO board(strID,strPassword,strEmail,strSubject,strContent,WriteDate,WriteEnt) VALUES ("
+   strSQL = strSQL & "'" & strID      & "',"
+   strSQL = strSQL & "'" & strPassword    & "',"
+   strSQL = strSQL & "'" & strEmail & "',"
    strSQL = strSQL & "'" & strSubject    & "',"
    strSQL = strSQL & "'" & strContent & "',"
    strSQL = strSQL & "getdate(),"

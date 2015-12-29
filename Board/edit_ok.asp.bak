@@ -4,11 +4,11 @@
       Dim objDBConn, objRs
       Dim strSQL 
       Dim intSeq 
-      Dim strName, strEmail, strSubject, strContent
+      Dim strID, strEmail, strSubject, strContent
       Dim strRealPassword, strPassword
 
       intSeq = Request.QueryString("seq")
-      strName = Request.Form("userName")
+      strID = Request.Form("userID")
       strEmail = Request.Form("userEmail")
       strSubject = Request.Form("subject")
       strContent = Request.Form("content")
@@ -41,7 +41,7 @@
       End If
 
       strSQL = "UPDATE board SET"
-      strSQL = strSQL & " strName = '" & strName & "',"
+      strSQL = strSQL & " strID = '" & strID & "',"
       strSQL = strSQL & " strEmail = '" & strEmail & "',"
       strSQL = strSQL & " strSubject = '" & strSubject & "',"
       strSQL = strSQL & " strContent = '" & strContent & "'"
