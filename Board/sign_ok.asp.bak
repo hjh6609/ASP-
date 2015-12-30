@@ -12,10 +12,11 @@
    Set objDBConn = Server.CreateObject("ADODB.Connection")
    objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
 
-   strSQL = " INSERT INTO SIGN_UP(UserID,UserPwd,UserContent) VALUES ("
+   strSQL = " INSERT INTO SIGN_UP(UserID,UserPwd,UserContent,RdcDate) VALUES ("
    strSQL = strSQL & "'" & strId      & "',"
    strSQL = strSQL & "'" & strPwd       & "',"
-   strSQL = strSQL & "'" & strSay & "')"
+   strSQL = strSQL & "'" & strSay & "',"
+   strSQL = strSQL & "getdate())"
 
    objDBConn.Execute strSQL
 

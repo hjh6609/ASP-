@@ -125,9 +125,7 @@
 	 <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="/list.asp">Board</a></li>
-            <li role="presentation"><a href="/login.asp">Login</a></li>
 			<li role="presentation"><a href="/logout.asp">LogOut</a></li>
-			<li role="presentation"><a href="/sign_up.asp">Sign Up</a></li>
           </ul>
      </nav>
         <h3 class="text-muted">First ASP Board</h3>

@@ -32,5 +32,8 @@
 	   Set objDBConn = Nothing
 	   response.write "<script>location.href='../list.asp';</script>"
        End If
-   End if
+   End If
+   
+   '페이스북 로그인
+
 %>

@@ -26,6 +26,15 @@
 	
 	<script>
 	
+	$(document).ready(function(){
+	
+		$("#board").click(function(){
+		
+			 alert("로그인한 사용자만 사용가능 합니다.");
+		});
+	
+	});
+
 	$(document).click(function(){
 		//아이디 중복검사
 		$("#btnEnter").click(function(){
@@ -48,9 +57,7 @@
 				}
 			});
 		});
-
 	});
-	
 	</script>
 </head>
 	<body>
@@ -58,7 +65,8 @@
 		  <div class="header">
 			 <nav>
 				  <ul class="nav nav-pills pull-right">
-					<li role="presentation"><a href="/list.asp">Board</a></li>
+					<li role="presentation"><a href="/list.asp" id="board">Board</a></li>
+					<li role="presentation"><a href="/login.asp">Login</a></li>
 					<li role="presentation" class="active"><a href="/sign_up.asp">Sign Up</a></li>
 				  </ul>
 			 </nav>
