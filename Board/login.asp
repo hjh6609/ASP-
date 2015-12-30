@@ -1,11 +1,3 @@
-<% 
-'쿠키 값을 가지고 있으면 바로 logincheck.asp로 보낸다.
-'즉 한번이라도 인증을 한 경우라면...
-if request.Cookies("SavedLogin").HasKeys then 
-        response.redirect "login_ok.asp?cookie=1" 
-		'Response.Cookies("SavedLogin").Expires = Date-1000   
-end if 
-%>
 <!Doctype html>
 <head>
 	<title>Login</title>
@@ -43,7 +35,7 @@ end if
 					<td><input type="password" name="txtPwd"></td>
 				</tr>
 				<tr>
-					<td align="center" colspan="2"><input type="submit" value="등록 완료"></td>
+					<td align="center" colspan="2"><input type="submit" value="Login"></td>
 				</tr>
 			</table>
 		</form>

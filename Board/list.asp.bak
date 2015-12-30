@@ -1,12 +1,10 @@
 <%
    Option Explicit '이 페이지에서 사용되는 모든 변수들은 반드시 선언되어진 이후에 사용 될 수 있다'
- 
-   '쿠키 값을 가지고 있으면 바로 logincheck.asp로 보낸다.
-   '즉 한번이라도 인증을 한 경우라면...
-   'if request.Cookies("SavedLogin").HasKeys then 
-   '		response.redirect "list.asp?cookie=1" 
-		'Response.Cookies("SavedLogin").Expires = Date-1000  
-   'end if 
+   
+   'Session 
+   If session("id") = "" Then
+		response.redirect "login.asp"
+   End if
 
    Dim objDBConn
    Dim objRs
@@ -128,9 +126,7 @@
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="/list.asp">Board</a></li>
             <li role="presentation"><a href="/login.asp">Login</a></li>
-			<%If request.Cookies("SavedLogin").HasKeys Then%>
-				<li role="presentation"><a href="/logout.asp">LogOut</a></li>
-			<%End if%>
+			<li role="presentation"><a href="/logout.asp">LogOut</a></li>
 			<li role="presentation"><a href="/sign_up.asp">Sign Up</a></li>
           </ul>
      </nav>
