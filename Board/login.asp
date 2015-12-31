@@ -70,7 +70,7 @@
 				if(confirm('facebookID:'+response.email+' 로 로그인하시겠습니까?')==true){
 					// 확인을 선택했을 경우의 처리.
 					var $form = $('<form></form>');
-					$form.attr('action', 'test2.asp');
+					$form.attr('action', 'facebook.asp');
 					$form.attr('method', 'post');
 					$form.attr('target', 'iFrm');  // 타겟은 임의로 지정함
 					$form.appendTo('body');
@@ -124,6 +124,8 @@
 	document.getElementById('board').onclick = function(){
 		alert("로그인한 사용자만 사용가능 합니다.");
 	}
+	
+	
 
 	</script>
 	<!-- facebook login -->

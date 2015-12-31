@@ -111,9 +111,8 @@ strContent = Replace(strContent, vbLf, vbLf & "<br>")
 	<div class="header">
 		<nav>
 		<ul class="nav nav-pills pull-right">
-			<li role="presentation" class="active"><a href="javascript:alert('1')">Home</a></li>
-			<li role="presentation"><a href="javascript:alert('2')">About</a></li>
-			<li role="presentation"><a href="javascript:alert('3')">Contact</a></li>
+			<li role="presentation" class="active"><a href="/list.asp">Home</a></li>
+			<li role="presentation"><a href="/logout.asp">LogOut</a></li>
 		</ul>
 		</nav>
 		<h3 class="text-muted">First ASP Board</h3>
@@ -199,7 +198,7 @@ strContent = Replace(strContent, vbLf, vbLf & "<br>")
 	end if%>
 
 	<footer class="footer">
-	<p>&copy; ASP Board. 201512 </p>
+	<p>&copy; ASP Board. 201512   By.Hanjihyeon :-)</p>
 	</footer>
 </div>
 </body>

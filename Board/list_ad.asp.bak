@@ -1,6 +1,6 @@
 <%
    Option Explicit '이 페이지에서 사용되는 모든 변수들은 반드시 선언되어진 이후에 사용 될 수 있다'
-  
+   
    'Session 
    If session("id") = "" Then
 		response.redirect "login.asp"
@@ -12,7 +12,7 @@
    
    'paging'
    Dim intNowPage, intTotalCount, intTotalPage, intBlockPage, intPageSize
-   Dim intTemp, intLoop
+   Dim intTemp, intLoop , num
 
    'Searching'
    Dim strSearchWord, strSearchString, strSearchSQL
@@ -83,7 +83,7 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	
 	<script type="text/javascript">
-	
+
 	$(document).ready(function(){
 		
 		history.forward(1)
@@ -91,7 +91,7 @@
 	})
 
 	</script>
-
+	
 	<!-- 스크롤 내리면서 로딩 -->
 	<!--
 	<script type="text/javascript">
@@ -128,6 +128,42 @@
 	</style>
 	-->	
 	<!-- 스크롤 내리면서 로딩 -->
+	 <script type="text/javascript">
+		 $(document).ready(function(){
+			//alert(1);
+
+			$("#cheVal").click(function(){
+				 //alert(1111);return;
+				 
+				 if( confirm("삭제하시겠습니까?"))
+				 {
+					var checkCnt = document.formSeldel.Remove.length;
+					var Arrnum = new Array();
+					m = 0;
+					 
+					for(var i=0; i< checkCnt; i++)
+					{
+						if(document.formSeldel.Remove[i].checked == true)
+						{
+							Arrnum[m] = document.formSeldel.Remove[i].value;
+							//alert(Arrnum[m]);
+							m+1;
+							//document.formSeldel.action="list_ad_del.asp?bundel=" + Arrnum[m];
+							//document.formSeldel.submit();
+						}
+					 }
+					 //alert(Arrnum[m]);return;
+					 //document.formSeldel.action="list_ad_del.asp?bundel=" + Arrnum;
+					 //document.formSeldel.action="list_ad_del.asp"
+					 //location.href="/list_ad_del.asp"
+					 document.formSeldel.submit();
+					 //document.location.href="/list_ad_del.asp";
+					 //alert(1);
+				 }
+			 });
+		 })
+	 
+	 </script>
  </head>
  <body>
  <div class="container">
@@ -166,7 +202,9 @@
 	 </table>
 	 <!-- paging -->
 	 <table class="table table-striped">
+		<form name="formSeldel" method="post" action="list_ad_del.asp">  
 		  <tr align="center">
+			 <td></td>
 			 <td>번호</td>
 			 <td>제목</td>
 			 <td>작성자</td>
@@ -182,9 +220,11 @@
 			  'paging'
 			  objRs.Move (intNowPage - 1) * intPageSize
 			  '↑paging'
+			  num = 1
 			  Do Until objRs.EOF
 	 %>
 	  <tr align="center">
+	   <td><input type="checkbox" id="test" name="Remove" value="<%=objRs(0)%>" /></td> <!-- 체크박스 -->
 	   <td><%=objRs(0)%></td>
 		<td>
 		   <a href="content.asp?seq=<%=objRs(0)%>"><%=objRs(3)%></a>
@@ -207,7 +247,9 @@
 		</td> 
 	  </tr>
 	 <%
+					  'response.write "Remove"&num 'test삼아 vlaue값 찍어봄
 					  objRs.MoveNext
+					  num = num + 1
 				  Loop
 		   End If
 
@@ -260,12 +302,14 @@
 		%>	
 		</td>
 	  </tr>
+	 </form>
 	</table>
 	 <!-- paging -->
 	 <% If blnSearch Then %>
 	 <a href="list.asp">목록으로&nbsp;
 	 <% End If %> 
-	 <a href="regist.asp">글쓰기</a>
+	 <a href="regist.asp"><input type="button" value="글쓰기"></a>
+	 <input type="submit" id="cheVal" value="삭제">
 	 </div>
 		<!--
 		<div class="wrdLatest">

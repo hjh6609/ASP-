@@ -26,6 +26,9 @@
 	   Else 
 		 session("id") = id
 		 'response.write session("id")
+		 If objRs("Grade") = 1 Then
+			response.write "<script>location.href='../list_ad.asp';</script>"
+		 End if
 	   objRs.close
        objDBConn.close
 	   Set objRs = Nothing

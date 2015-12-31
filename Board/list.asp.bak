@@ -1,6 +1,6 @@
 <%
    Option Explicit '이 페이지에서 사용되는 모든 변수들은 반드시 선언되어진 이후에 사용 될 수 있다'
-   
+  
    'Session 
    If session("id") = "" Then
 		response.redirect "login.asp"
@@ -82,6 +82,16 @@
     <script src="../bootstrap-dist/js/ie10-viewport-bug-workaround.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	
+	<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		history.forward(1)
+		
+	})
+
+	</script>
+
 	<!-- 스크롤 내리면서 로딩 -->
 	<!--
 	<script type="text/javascript">
