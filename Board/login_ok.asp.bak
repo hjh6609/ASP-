@@ -2,7 +2,7 @@
    Option Explicit 
   
    Dim objDBConn , objRs , strSQL
-   Dim  strRealId, id, pwd , bLoginSaved 
+   Dim  strRealId, id, pwd , bLoginSaved ,test
 
    id  = Trim(Request.Form("txtID"))
    pwd = Trim(Request.Form("txtPwd"))
@@ -26,15 +26,20 @@
 	   Else 
 		 session("id") = id
 		 'response.write session("id")
+		 'response.write id
 		 If objRs("Grade") = 1 Then
-			response.write "<script>location.href='../list_ad.asp';</script>"
+			Response.Redirect "list_ad.asp?myid="& id 
 		 End if
 	   objRs.close
        objDBConn.close
 	   Set objRs = Nothing
 	   Set objDBConn = Nothing
-	   'response.write "<script>location.href='../list.asp?myid='"+id";</script>"
-	   response.write "<script>location.href='../list.asp';</script>"
+	   'response.write id 
+	   'test = "list.asp?myid="& id 
+	   'response.write test
+	   Response.Redirect "list.asp?myid="& id 
+	   'Response.Redirect "content.asp?GotoPage=" & GotoPage & "&seq=" & intSeq
+	   'response.write "<script>location.href='../list.asp';</script>"
        End If
    End If
 

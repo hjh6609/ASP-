@@ -5,12 +5,13 @@ Option Explicit
 Dim objDBConn
 Dim objRs
 Dim strSQL 
-Dim strName , strEmail, strSubject,strContent,intSeq , WriteDate, WriteEnt  
+Dim strName , strEmail, strSubject,strContent,intSeq , WriteDate, WriteEnt 
 
 Dim Gotopage
 GoTopage= request("GotoPage")
 
 intSeq	= Request.QueryString("seq")
+
 
 Set objDBConn = Server.CreateObject("ADODB.Connection")
 Set objRs = Server.CreateObject("ADODB.RecordSet")

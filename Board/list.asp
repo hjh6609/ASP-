@@ -27,7 +27,7 @@
    
 
    'login page 에서 온 내 아이디 받기
-   'myid  = Trim(Request.Form("myid"))
+   myid = Request.QueryString("myid")
 
    If Len(intNowPage) = 0 Then
        intNowPage = 1
@@ -269,7 +269,7 @@
 	 <% If blnSearch Then %>
 	 <a href="list.asp">목록으로&nbsp;
 	 <% End If %> 
-	 <a href="regist.asp">글쓰기</a>
+	 <a href="regist.asp?myid=<%=myid%>">글쓰기</a>
 	 </div>
 		<!--
 		<div class="wrdLatest">

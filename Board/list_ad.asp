@@ -12,11 +12,14 @@
    
    'paging'
    Dim intNowPage, intTotalCount, intTotalPage, intBlockPage, intPageSize
-   Dim intTemp, intLoop , num
+   Dim intTemp, intLoop , num ,myid
 
    'Searching'
    Dim strSearchWord, strSearchString, strSearchSQL
    Dim blnSearch
+   
+   'login page 에서 온 내 아이디 받기
+   myid = Request.QueryString("myid")
 
    intNowPage = Request.QueryString("page")
    strSearchWord = Request.QueryString("search_word")'Searching'
@@ -308,7 +311,7 @@
 	 <% If blnSearch Then %>
 	 <a href="list.asp">목록으로&nbsp;
 	 <% End If %> 
-	 <a href="regist.asp"><input type="button" value="글쓰기"></a>
+	 <a href="regist.asp?myid=<%=myid%>"><input type="button" value="글쓰기"></a>
 	 <input type="submit" id="cheVal" value="삭제">
 	 </div>
 		<!--
