@@ -6,7 +6,7 @@
   
    strID       = Request.Form("userID")
    strPassword  = Request.Form("userPwd")
-   strEmail        = Request.Form("userEmail")
+   strEmail        = "-"
    strSubject     = Request.Form("subject")
    strContent    = Request.Form("content")
 	

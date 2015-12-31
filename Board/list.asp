@@ -5,14 +5,14 @@
    If session("id") = "" Then
 		response.redirect "login.asp"
    End if
-
+   
    Dim objDBConn
    Dim objRs
    Dim strSQL
    
    'paging'
    Dim intNowPage, intTotalCount, intTotalPage, intBlockPage, intPageSize
-   Dim intTemp, intLoop
+   Dim intTemp, intLoop  , myid
 
    'Searching'
    Dim strSearchWord, strSearchString, strSearchSQL
@@ -24,6 +24,10 @@
    blnSearch = false'Searching'
    intPageSize = 10
    intBlockPage = 10
+   
+
+   'login page 에서 온 내 아이디 받기
+   'myid  = Trim(Request.Form("myid"))
 
    If Len(intNowPage) = 0 Then
        intNowPage = 1

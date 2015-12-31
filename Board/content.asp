@@ -74,21 +74,21 @@ strContent = Replace(strContent, vbLf, vbLf & "<br>")
 <script>
 	function addComment()
 	{
-		alert(1);
+		//alert(1);
 		var name = document.frmMent.txtName.value;
 		if (CheckStr(name, " ", "")==0) {
 		  alert("이름을 입력해 주세요");
 		  document.frmMent.txtName.focus();
 		  return;
 		}
-		alert(2);
+		//alert(2);
 		var content = document.frmMent.txtContent.value;
 		if (CheckStr(content, " ", "")==0) {
 		  alert("커멘트 내용을 입력해 주세요");
 		  document.frmMent.txtContent.focus();
 		  return;
 		}
-		alert(3);
+		//alert(3);
 		document.frmMent.submit();
 	}
 

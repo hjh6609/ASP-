@@ -33,10 +33,9 @@
        objDBConn.close
 	   Set objRs = Nothing
 	   Set objDBConn = Nothing
+	   'response.write "<script>location.href='../list.asp?myid='"+id";</script>"
 	   response.write "<script>location.href='../list.asp';</script>"
        End If
    End If
-   
-   '페이스북 로그인
 
 %>

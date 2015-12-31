@@ -1,3 +1,6 @@
+<%
+
+%>
 <!DOCTYPE html>
 <head>
 	<title>글쓰기</title>
@@ -35,10 +38,6 @@
 			<tr>
 				<td align="center">비밀번호</td>
 				<td><input type="password" name="userPwd" size="15"></td>
-			</tr>
-			<tr>
-				<td align="center">Email</td>
-				<td><input type="text" name="userEmail" size="50"></td>
 			</tr>
 			<tr>
 				<td align="center">제목</td>
