@@ -59,7 +59,7 @@
 
    strSQL = "SELECT Top " & intNowPage * intPageSize & " inx"   ' objRs(0) - 번호
    strSQL = strSQL & ",strID"                 ' objRs(1) - 이름
-   strSQL = strSQL & ",strEmail"                ' objRs(2) - 메일주소
+   strSQL = strSQL & ",strNotice"                ' objRs(2) - 메일주소
    strSQL = strSQL & ",strSubject"              ' objRs(3) - 제목
    strSQL = strSQL & ",WriteDate"               ' objRs(4) - 날짜
    strSQL = strSQL & ",WriteEnt"                ' objRs(5) - 조회수
@@ -89,9 +89,15 @@
 	<script type="text/javascript">
 	
 	$(document).ready(function(){
-		
-		history.forward(1)
-		
+		//세션 값이 없으면(로그인이 안되어 있으면) 뒤로가기 못감.
+		if(session("id") = "")
+		{
+			history.forward(1);
+		}
+		else
+		{
+			location.href="/list.asp";
+		}
 	})
 
 	</script>

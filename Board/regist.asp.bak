@@ -13,6 +13,30 @@
 
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="../bootstrap-dist/js/ie10-viewport-bug-workaround.js"></script>
+	
+	<script type="text/javascript">
+	
+	function Confirm()
+	{
+		if(document.registForm.userPwd.value==''){
+		  alert("비밀번호를 입력하세요.");
+		  document.registForm.userPwd.focus();
+		}else if(document.registForm.subject.value==''){
+		  alert("제목을 입력하세요.");    
+		  document.registForm.subject.focus();
+		}else if(document.registForm.content.value=='')
+		{
+		  alert("내용을 입력하세요.");    
+		  document.registForm.content.focus();
+		}
+		else{
+		   document.registForm.submit(); 
+		   return true;
+		}
+	}
+
+	</script>
+
 </head>
 <body>
 <div class="container">
@@ -25,7 +49,7 @@
 		</nav>
 		<h3 class="text-muted">First ASP Board</h3>
 	</div>
-	<form name="registForm" method= "post" action="regist_ok.asp">
+	<form name="registForm" method= "post" action="regist_ok.asp" onSubmit="Confirm();return false">
 		<table class="table">
 			<tr>
 				<td colspan="2" align="center"><b>글을 적어주세요</b></td>
@@ -48,7 +72,8 @@
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<input type="submit" value="작성 완료">&nbsp;&nbsp;&nbsp;
+					<input type="submit" value="작성 완료">
+					<a href="/list.asp"><input type="button" value="목록으로"></a>
 					<input type="reset" value="다시 작성">
 				</td>
 			</tr>

@@ -58,7 +58,7 @@
 
    strSQL = "SELECT Top " & intNowPage * intPageSize & " inx"   ' objRs(0) - 번호
    strSQL = strSQL & ",strID"                 ' objRs(1) - 이름
-   strSQL = strSQL & ",strEmail"                ' objRs(2) - 메일주소
+   strSQL = strSQL & ",strNotice"                ' objRs(2) - 메일주소
    strSQL = strSQL & ",strSubject"              ' objRs(3) - 제목
    strSQL = strSQL & ",WriteDate"               ' objRs(4) - 날짜
    strSQL = strSQL & ",WriteEnt"                ' objRs(5) - 조회수

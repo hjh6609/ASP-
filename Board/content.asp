@@ -24,7 +24,7 @@ strSQL = strSQL & " Where inx = " & intSeq
 Set objRs = objDBConn.execute(strSQL)
 
 strSQL = "SELECT strID"                     ' objRs(0) - 捞抚
-strSQL = strSQL & ",strEmail"                 ' objRs(1) - 皋老林家
+strSQL = strSQL & ",strNotice"                 ' objRs(1) - 皋老林家
 strSQL = strSQL & ",strSubject"               ' objRs(2) - 力格
 strSQL = strSQL & ",strContent"               ' objRs(3) - 郴侩
 strSQL = strSQL & ",WriteDate"               ' objRs(4) - 朝楼
