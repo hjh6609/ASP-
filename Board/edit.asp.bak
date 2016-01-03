@@ -4,9 +4,10 @@
       Dim objDBConn, objRs
       Dim strSQL
       Dim intSeq
-      Dim strID, strEmail, strSubject, strContent
+      Dim strID, strNotice, strSubject, strContent , myid
 
       intSeq = Request.QueryString("seq")
+	  myid = Request.QueryString("myid")
 
       Set objDBConn = Server.CreateObject("ADODB.Connection")
       Set objRs = Server.CreateObject("ADODB.RecordSet")
@@ -14,7 +15,7 @@
       objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
 
       strSQL = "Select strID"                    ' objRs(0) - 이름
-      strSQL = strSQL & ",strEmail"                ' objRs(1) - 이메일
+      strSQL = strSQL & ",strNotice"                ' objRs(1) - 이메일
       strSQL = strSQL & ",strSubject"              ' objRs(2) - 제목
       strSQL = strSQL & ",strContent"              ' objRs(3) - 내용
       strSQL = strSQL & " From board"
@@ -23,7 +24,7 @@
       objRs.Open strSQL, objDBConn
 
       strID = objRs("strID")
-      strEmail = objRs("strEmail")
+      strNotice = objRs("strNotice")
       strSubject = objRs("strSubject")
       strContent = objRs("strContent")
 
@@ -50,9 +51,8 @@
 	<div class="header">
 		<nav>
 		<ul class="nav nav-pills pull-right">
-			<li role="presentation" class="active"><a href="javascript:alert('1')">Home</a></li>
-			<li role="presentation"><a href="javascript:alert('2')">About</a></li>
-			<li role="presentation"><a href="javascript:alert('3')">Contact</a></li>
+			<li role="presentation" class="active"><a href="/list.asp?myid=<%=myid%>">Board</a></li>
+			<li role="presentation"><a href="/logout.asp">LogOut</a></li>
 		</ul>
 		</nav>
 		<h3 class="text-muted">First ASP Board</h3>
@@ -64,14 +64,12 @@
 		  </tr>
 		  <tr>
 			<td align="center">아이디</td>
-			<td>
-			  <input type="text" name="userID" size="15" value="<%=strID%>">
-			</td>
+			<td><%=strID%></td>
 		  </tr>
 		  <tr>
 			<td align="center">Email</td>
 			<td>
-			  <input type="text" name="userEmail" size="50" value="<%=strEmail%>">
+			  <input type="text" name="userEmail" size="50" value="<%=strNotice%>">
 			</td>
 		  </tr>
 		  <tr>
