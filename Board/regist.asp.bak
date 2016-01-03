@@ -43,7 +43,7 @@
 	<div class="header">
 		<nav>
 		<ul class="nav nav-pills pull-right">
-			<li role="presentation" class="active"><a href="/list.asp">Home</a></li>
+			<li role="presentation" class="active"><a href="/list.asp?myid=<%=myid%>">Board</a></li>
 			<li role="presentation"><a href="/logout.asp">LogOut</a></li>
 		</ul>
 		</nav>
@@ -73,7 +73,7 @@
 			<tr>
 				<td colspan="2" align="center">
 					<input type="submit" value="작성 완료">
-					<a href="/list.asp"><input type="button" value="목록으로"></a>
+					<a href="/list.asp?myid=<%=myid%>""><input type="button" value="목록으로"></a>
 					<input type="reset" value="다시 작성">
 				</td>
 			</tr>
