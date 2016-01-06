@@ -1,0 +1,183 @@
+<!--#include File="DBHelper.asp"-->
+<%
+
+Dim objDBConn 
+Dim objRs
+Dim strSQL 
+Dim strName , strEmail, strSubject,strContent,intSeq , WriteDate, WriteEnt, myid
+Dim Co_seq, Co_name , Co_content ,Gotopage 
+
+
+GoTopage= Request.QueryString("page")
+intSeq	= Request.QueryString("seq")
+myid = Request.QueryString("myid")
+
+Set DBHelper = new clsDBHelper
+
+'조회수 
+DBHelper.ExecSQL "Update board Set WriteEnt = WriteEnt + 1 Where inx = " & intSeq  , Nothing, Nothing
+
+
+'게시판 내용보기
+Set rs = DBHelper.ExecSQLReturnRS("SELECT strID ,strNotice,strSubject,strContent,WriteDate,WriteEnt FROM board WHERE inx ="& IntSeq, Nothing, Nothing)
+
+strName = rs(0)
+strEmail= rs(1)
+strSubject = rs(2)
+strContent = rs(3)
+WriteDate = rs(4)
+WriteEnt = rs(5)
+
+rs.Close
+Set rs = Nothing
+
+'댓글보기
+Set rs = DBHelper.ExecSQLReturnRS("SELECT Co_seq, Co_name, Co_Content FROM Comment WHERE inx="& IntSeq, Nothing, Nothing)
+
+strContent = Replace(strContent, vbLf, vbLf & "<br>")
+
+%>
+<!DOCTYPE html>
+<head>
+<title>게시판 - 내용보기</title>
+<!-- Bootstrap core CSS -->
+<link href="../BootStrap/bootstrap-dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="../BootStrap/bootstrap-dist/js/jumbotron-narrow.css" rel="stylesheet">
+
+<script src="../BootStrap/bootstrap-dist/js/ie-emulation-modes-warning.js"></script>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../bootstrap-dist/js/ie10-viewport-bug-workaround.js"></script>
+
+<script>
+	function addComment()
+	{
+		//alert(1);
+		var name = document.frmMent.txtName.value;
+		if (CheckStr(name, " ", "")==0) {
+		  alert("이름을 입력해 주세요");
+		  document.frmMent.txtName.focus();
+		  return;
+		}
+		//alert(2);
+		var content = document.frmMent.txtContent.value;
+		if (CheckStr(content, " ", "")==0) {
+		  alert("커멘트 내용을 입력해 주세요");
+		  document.frmMent.txtContent.focus();
+		  return;
+		}
+		//alert(3);
+		document.frmMent.submit();
+	}
+
+	function CheckStr(strOriginal, strFind, strChange){
+		var position, strOri_Length;
+		position = strOriginal.indexOf(strFind); 
+
+		while (position != -1){
+		  strOriginal = strOriginal.replace(strFind, strChange);
+		  position = strOriginal.indexOf(strFind);
+		}
+
+		strOri_Length = strOriginal.length;
+		return strOri_Length;
+	  }
+</script>
+</head>
+<body>
+<div class="container">
+	<div class="header">
+		<nav>
+		<ul class="nav nav-pills pull-right">
+			<li role="presentation" class="active"><a href="/list.asp">Home</a></li>
+			<li role="presentation"><a href="/logout.asp">LogOut</a></li>
+		</ul>
+		</nav>
+		<h3 class="text-muted">First ASP Board</h3>
+	</div>
+	<table class="table table-striped">
+	<tr>
+		<td>이름</td>
+		<td><%=strName%></td>
+		<td>조회수</td>
+		<td colspan="3">
+			<%If IsNull(WriteEnt) Then
+			response.write "0"
+			Else
+			response.write(WriteEnt)
+			End If %>
+		</td>
+	</tr>
+	<tr>
+		<td>Email</td>
+		<td colspan="5"><a href="mailto:<%=strEmail%>"><%=strEmail%></a></td>
+	</tr>
+	<tr>
+		<td>제목</td>
+		<td colspan="3"><%=strSubject%></td>
+		<td>등록일</td>
+		<td colspan="3">
+			<%If IsNull(WriteDate) Then
+			response.write "날짜없음"
+			Else
+			response.write(Replace(Mid(WriteDate,1,10),"-","."))
+			End If %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6" style="padding:15px;"><%=strContent%></td>
+	</tr>
+	<tr>
+		<td colspan="6" align="center">
+			<a href="edit.asp?seq=<%=intSeq%>">수정하기</a>
+			<a href="list.asp?page=<%=GoTopage%>">목록으로</a>
+			<a href="delete.asp?seq=<%=intSeq%>">삭제하기</a>
+		</td>
+	</tr>
+	</table>
+
+	<form name="frmMent" action="reply_ok.asp" Method="post">
+	  <table width="700" bgcolor="slategray" cellspacing="1">	
+		<tr bgcolor="#eeeeee">
+		  <td colspan=2>댓글을 남겨주세요</td>
+		</tr>
+		<tr><td>&nbsp;</td></tr>
+		<tr bgcolor="white">
+		  <INPUT class= "inputa" type="hidden" name= "GoTopage" value="<%=GoTopage%>">
+		  <INPUT class= "inputa" type="hidden" name= "board_idx" value="<%=intSeq%>">
+		  <td>이름 : <INPUT class="inputa" name="txtName" size="7"></td>
+		  <td align="center">
+			멘트 : 
+			<INPUT class="inputa" name="txtContent" size="50" maxlength="200">
+			<Input class="buttona" type="button" onClick="addComment();" value="저장">
+		  </td>
+		</tr>
+	  </table>
+	</form>
+	<br><font size=2><b>Comment</b></font>
+	  <table width="700" bgcolor="slategray" cellspacing="1" border="0">	
+		<!--Do-->
+		<% Do Until rs.EOF %>
+		<tr bgcolor="white">  
+		  <!-- <td><%=rs("Co_seq")%>(<%=rs("Co_name")%>)</br><%=rs("Co_content")%> -->
+		  <td><b><%=rs("Co_name")%></b></br>내용 :<%=rs("Co_content")%>
+		  </td>
+		</tr>
+		<%
+			rs.MoveNext
+		Loop
+
+		rs.Close
+		Set rs = Nothing
+		DBHelper.Dispose
+		Set DBHelper = Nothing
+		%>
+		<!--Loop-->
+	  </table>
+	<footer class="footer">
+	<p>&copy; ASP Board. 201512   By.Hanjihyeon :-)</p>
+	</footer>
+</div>
+</body>
+</html>
