@@ -28,10 +28,10 @@
 		 </nav>
 			<h3 class="text-muted">First ASP BOARD</h3>
 		</div>
-		<form name="FormLogin" method="post" action="login_ok.asp">
+		<form name="FormLogin" method="post" action="login_ok.asp" onSubmit="Confirm();return false">
 			<table table align="center" border="0">
 				<tr>
-					<td>아이디</td>
+					<td>이메일</td>
 					<td><input type="text" name="txtID"></td>
 				</tr>
 				<tr>
@@ -125,7 +125,19 @@
 		alert("로그인한 사용자만 사용가능 합니다.");
 	}
 	
-	
+	function Confirm()
+	{
+		if(document.FormLogin.txtID.value==''){
+		  alert("아이디를 입력해 주세요.");
+		  document.FormLogin.txtID.focus();
+		}else if(document.FormLogin.txtPwd.value==''){
+		  alert("비밀번호를 입력 해주세요.");    
+		  document.FormLogin.txtPwd.focus();
+		}else{
+		   document.FormLogin.submit(); 
+		   return true;
+		}
+	}
 
 	</script>
 	<!-- facebook login -->

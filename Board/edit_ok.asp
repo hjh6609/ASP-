@@ -1,59 +1,38 @@
+<!--#include File="DBHelper.asp"-->
 <%
-      Option Explicit
-
-      Dim objDBConn, objRs
-      Dim strSQL 
       Dim intSeq 
-      Dim strID, strEmail, strSubject, strContent
+      Dim strSubject, strContent
       Dim strRealPassword, strPassword
 
       intSeq = Request.QueryString("seq")
-      strID = Request.Form("userID")
-      strEmail = Request.Form("userEmail")
+	  strPassword = Request.Form("userPwd")
       strSubject = Request.Form("subject")
       strContent = Request.Form("content")
-      strPassword = Request.Form("userPwd")
+	
+      Set DBHelper = new clsDBHelper 	
+  
+	  Dim paramInfo(3)
+	  paramInfo(0) = DBHelper.MakeParam("@IntSeq",adInteger,adParamInput,4, intSeq)
+	  paramInfo(1) = DBHelper.MakeParam("@Pwd",adVarWChar,adParamInput,20, strPassword)
+	  paramInfo(2) = DBHelper.MakeParam("@strSubject",adVarWChar,adParamInput,50, strSubject)
+	  paramInfo(3) = DBHelper.MakeParam("@strContent",adVarWChar,adParamInput,300, strContent)
 
-      Set objDBConn = Server.CreateObject("ADODB.Connection")
-      Set objRs = Server.CreateObject("ADODB.RecordSet")
+	  Set rs = DBHelper.ExecSPReturnRS("dbo.Board_Edit", paramInfo, Nothing)
 
-	  objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
+	  Select Case (rs(0))
+		 case 10
+		   response.write "<script>alert('비밀번호가 일치하지 않습니다');history.go(-1);</script>"
+		   rs.Close
+		   Set rs = Nothing
+		 case 20	
+			response.write "<script>alert('수정완료 되었습니다');location.href='./list.asp';</script>"
+			rs.close
+			Set rs = Nothing
+		 case Else :
+		   response.write "<script>alert('알수 없는 오류입니다.');history.go(-1);</script>"
+	  End Select
 
-      strSQL = "SELECT strPassword"
-      strSQL = strSQL & " FROM board"
-      strSQL = strSQL & " WHERE inx = " & intSeq
+	  DBHelper.Dispose
+	  Set DBHelper = Nothing
 
-      objRs.Open strSQL, objDBConn
-      strRealPassword = objRs("strPassword")
-      objRs.Close
-      Set objRs = nothing
-
-      If strRealPassword <> strPassword Then
 %>
-<script language="javascript">
-
-      alert("비밀번호가 일치하지 않습니다");
-      history.back();
-
-</script>
-<%
-          Response.End
-      End If
-
-      strSQL = "UPDATE board SET"
-      strSQL = strSQL & " strID = '" & strID & "',"
-      strSQL = strSQL & " strEmail = '" & strEmail & "',"
-      strSQL = strSQL & " strSubject = '" & strSubject & "',"
-      strSQL = strSQL & " strContent = '" & strContent & "'"
-      strSQL = strSQL & " WHERE inx = " & intSeq
-
-      objDBConn.Execute strSQL
-      objDBConn.Close
-      Set objDBConn = nothing
-%>
-<script language="javascript">
-
-      alert("수정되었습니다");
-      location.href="list.asp";
-
-</script>

@@ -1,5 +1,6 @@
 <%
 	myid = Request.QueryString("myid")
+	Gotopage =  Request.QueryString("page")
 %>
 <!DOCTYPE html>
 <head>
@@ -16,12 +17,30 @@
 	
 	<script type="text/javascript">
 	
+	/*
 	function Confirm()
 	{
 		if(document.registForm.userPwd.value==''){
 		  alert("비밀번호를 입력하세요.");
 		  document.registForm.userPwd.focus();
 		}else if(document.registForm.subject.value==''){
+		  alert("제목을 입력하세요.");    
+		  document.registForm.subject.focus();
+		}else if(document.registForm.content.value=='')
+		{
+		  alert("내용을 입력하세요.");    
+		  document.registForm.content.focus();
+		}
+		else{
+		   document.registForm.submit(); 
+		   return true;
+		}
+	}
+	*/
+
+	function Confirm()
+	{
+		if(document.registForm.subject.value==''){
 		  alert("제목을 입력하세요.");    
 		  document.registForm.subject.focus();
 		}else if(document.registForm.content.value=='')
@@ -54,10 +73,12 @@
 			<tr>
 				<td colspan="2" align="center"><b>글을 적어주세요</b></td>
 			</tr>
+			<!-- 
 			<tr>
 				<td align="center">아이디</td>
 				<td><input type="text" name="userID" size="15" value="<%=myid%>"></td>
 			</tr>
+			-->
 			<tr>
 				<td align="center">비밀번호</td>
 				<td><input type="password" name="userPwd" size="15"></td>
@@ -73,7 +94,7 @@
 			<tr>
 				<td colspan="2" align="center">
 					<input type="submit" value="작성 완료">
-					<a href="/list.asp?myid=<%=myid%>""><input type="button" value="목록으로"></a>
+					<!-- <a href="/list.asp?myid=<%=myid%>&page="<%=Gotopage%>><input type="button" value="목록으로"></a> -->
 					<input type="reset" value="다시 작성">
 				</td>
 			</tr>

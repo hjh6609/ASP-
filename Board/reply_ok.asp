@@ -1,24 +1,43 @@
-<% Option Explicit %>
+<!--#include File="DBHelper.asp"-->
 <%
 Dim objDBConn
 Dim strSQL , adoRs
-Dim intSeq , GotoPage , name,content
+Dim intSeq , GotoPage , name,content,DBHelper
+
 intSeq = Request.form("board_idx")
-GotoPage = Request.form("GotoPage")
+GotoPage = Request.form("GoTopage")
 name = Request.form("txtName")
 content = Request.form("txtContent")
 
- Set objDBConn = Server.CreateObject("ADODB.Connection")
- objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
+'If session("id") = "" Then
+'	response.redirect "login.asp"
+'End if
 
-   strSQL = " INSERT INTO comment(inx,Co_name,Co_date,Co_Content) VALUES ("
-   strSQL = strSQL & "'" & intSeq  & "',"
-   strSQL = strSQL & "'" & name   & "',"
-   strSQL = strSQL & "getdate(),"
-   strSQL = strSQL & "'" & content       & "')"
+Set DBHelper = new clsDBHelper 
+   
+Dim paramInfo(2)
+paramInfo(0) = DBHelper.MakeParam("@intSeq",adInteger,adParamInput,4, intSeq)
+paramInfo(1) = DBHelper.MakeParam("@UserID",adVarWChar,adParamInput,20, session("id"))
+paramInfo(2) = DBHelper.MakeParam("@strContent",adVarWChar,adParamInput,300, content)
 
-   objDBConn.Execute strSQL
+Set rs = DBHelper.ExecSPReturnRS("dbo.Board_Reply", paramInfo, Nothing)
 
-Set objDBConn = nothing
+Select Case (rs(0))
+ case 10
+   response.write "<script>alert('등록 되었습니다.');"
+   rs.Close
+   Set rs = Nothing
+ case Else :
+   response.write "<script>alert('알수 없는 오류입니다.');history.go(-1);</script>"
+End Select
+
+DBHelper.Dispose
+Set DBHelper = Nothing
+
+
+'response.write "11111"
+'response.End
+
 Response.Redirect "content.asp?GotoPage=" & GotoPage & "&seq=" & intSeq
+
 %>

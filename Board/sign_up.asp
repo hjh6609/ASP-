@@ -26,29 +26,53 @@
 	
 	<script>
 	
+	var Overlap = false;   //아이디 중복확인 버튼
+
 	$(document).ready(function(){
 	
 		$("#board").click(function(){
 		
 			 alert("로그인한 사용자만 사용가능 합니다.");
 		});
-	
-	});
 
-	$(document).click(function(){
-		//아이디 중복검사
+		//이메일 중복검사
 		$("#btnEnter").click(function(){
-			var id = $('#txtidVal').val();
+			Overlap = true;
+			var id = $("#txtidVal").val();
+			var regex= /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+			//var rehan = /^([a-zA-Z0-9]{1,20})$/;
+
+			if(!id)
+			{
+				alert("이메일을 입력해 주세요:-)");
+				$("#txtidVal").focus();
+				return false;
+			}
+			else if(id.search(regex) == -1)
+			{
+				alert("이메일 형식에 맞게 입력해 주세요.");
+				$("#txtidVal").focus();
+				return false;
+			}
+
+			console.log("1111");
 			$.ajax({
 				type: "POST",
 				url: "check_id.asp", //이페이지에서 중복체크를 한다
-				data: "id="+ id ,//test.asp에 id 값을 보낸다
+				data:({"id":id}),
 				cache: false,
+				dataType: "text",
 				success: function(data){
 					//alert(data);
+					//return;
 					if(data == "true")
 					{
 						$("#loadtext").html("사용가능합니다."); //해당 내용을 보여준다
+					}
+					else if(data == "null")
+					{
+						alert("이메일을 입력해 주세요.");
+						return;
 					}
 					else
 					{
@@ -57,7 +81,46 @@
 				}
 			});
 		});
+	
 	});
+
+	
+	function Confirm()
+	{
+		if(document.SignForm.txtid.value==''){
+		  alert("이메일을 입력해 주세요.");
+		  document.SignForm.txtid.focus();
+		}else if(document.SignForm.txtpwd.value==''){
+		  alert("비밀번호를 입력하세요.");    
+		  document.SignForm.txtpwd.focus();
+		}else if(document.SignForm.txtsay.value=='')
+		{
+		  alert("하고싶은 말을 입력하세요.");    
+		  document.SignForm.txtsay.focus();
+		}
+		else{
+		   //중복확인 버튼 안 눌렀으면
+		   if(Overlap == false)
+		   {
+				alert("이메일 중복검사를 해주세요.");
+				return false;
+		   }  
+			//비밀번호 유효성 검사
+			else if(!$("#txtpwd").val())
+			{
+				//비밀번호 길이 체크(4~8자 까지 허용)
+				if (document.SignForm.txtpwd.value.length<4 || document.SignForm.txtpwd.value.length>8)
+				{
+					 alert ("비밀번호를 4~8자까지 입력해주세요.");
+					 document.SignForm.txtpwd.focus()
+					 return false;
+				}
+
+			}
+		   document.SignForm.submit(); 
+		   return true;
+		}
+	}
 	</script>
 </head>
 	<body>
@@ -72,17 +135,17 @@
 			 </nav>
 				<h3 class="text-muted">First ASP BOARD</h3>
 			</div>
-			<form name="SignForm" method= "post" action="sign_ok.asp">
+			<form name="SignForm" method= "post" action="sign_ok.asp" onSubmit="Confirm();return false">
 				<h5 align ="center">회원가입</h5>
 				<table class="table" style="width:500px;" align="center">
 					<tr>
-						<td>아이디</td>
+						<td>이메일</td>
 						<td><input type="txt" name="txtid" id ="txtidVal"></td>
 						<td><input type="button" value="중복확인" id="btnEnter"><p><div id="loadtext"></p></td>
 					</tr>
 					<tr>
 						<td>비밀번호</td>
-						<td colspan="3"><input type="password" name="txtpwd"></td>
+						<td  colspan="3"><input type="password" name="txtpwd"></td>
 					</tr>
 					<tr>
 						<td>하고싶은말</td>

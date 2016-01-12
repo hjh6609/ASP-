@@ -1,37 +1,39 @@
+<!--#include File="DBHelper.asp"-->
 <%
-      Option Explicit
+      '//에러코드 시작 상단에 두고 
+	  On Error Resume Next
 
-      Dim objDBConn, objRs
-      Dim strSQL
-      Dim intSeq
-      Dim strID, strNotice, strSubject, strContent , myid
+	  Dim intSeq,strID, strNotice, strSubject, strContent , myid , test1, test2
 
       intSeq = Request.QueryString("seq")
 	  myid = Request.QueryString("myid")
+	  	  
+	  Set DBHelper = new clsDBHelper 	
+  
+	  Dim paramInfo(3)
+	  paramInfo(0) = DBHelper.MakeParam("@IntSeq",adInteger,adParamInput,4, intSeq)
+	  paramInfo(1) = DBHelper.MakeParam("@Pwd",adVarWChar,adParamInput,20, "")
+	  paramInfo(2) = DBHelper.MakeParam("@strSubject",adVarWChar,adParamInput,50, "view")
+	  paramInfo(3) = DBHelper.MakeParam("@strContent",adVarWChar,adParamInput,300, "")
 
-      Set objDBConn = Server.CreateObject("ADODB.Connection")
-      Set objRs = Server.CreateObject("ADODB.RecordSet")
+	  Set rs = DBHelper.ExecSPReturnRS("dbo.Board_Edit", paramInfo, Nothing)
 
-      objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
+	  '에러가 있다면 메세지 보여주기 
+	  if err.number <> 0 then 
+		  response.Write "<script>alert('조회하시려는 글 번호가 없습니다.\n이전페이지로 이동합니다.');history.go(-1);</script>"
+	  ElseIf intSeq = "" Then 
+		  response.Write "<script>alert('조회하시려는 글 번호가 없습니다.\n이전페이지로 이동합니다.');history.go(-1);</script>"
+	  ElseIf rs(0) <> 10 Then 
+		  strName = rs(0)
+		  strSubject = rs(1)
+		  strContent = rs(2)
+	  Else
+		  response.write "<script>alert('조회하시려는 글 번호가 없습니다.\n이전페이지로 이동합니다.');history.go(-1);</script>"
+		  response.End
+	  End If 
 
-      strSQL = "Select strID"                    ' objRs(0) - 이름
-      strSQL = strSQL & ",strNotice"                ' objRs(1) - 이메일
-      strSQL = strSQL & ",strSubject"              ' objRs(2) - 제목
-      strSQL = strSQL & ",strContent"              ' objRs(3) - 내용
-      strSQL = strSQL & " From board"
-      strSQL = strSQL & " Where inx = " & intSeq
-
-      objRs.Open strSQL, objDBConn
-
-      strID = objRs("strID")
-      strNotice = objRs("strNotice")
-      strSubject = objRs("strSubject")
-      strContent = objRs("strContent")
-
-      objRs.Close
-      Set objRs = nothing
-      objDBConn.Close
-      Set objDBConn = nothing
+	  'response.write rs(0)
+	  'response.End 
 %>
 <html>
 <head>
@@ -64,25 +66,25 @@
 		  </tr>
 		  <tr>
 			<td align="center">아이디</td>
-			<td><%=strID%></td>
-		  </tr>
-		  <tr>
-			<td align="center">Email</td>
-			<td>
-			  <input type="text" name="userEmail" size="50" value="<%=strNotice%>">
-			</td>
+			<td><%=rs("strID")%></td>
 		  </tr>
 		  <tr>
 			<td align="center">제목</td>
 			<td>
-			  <input type="text" name="subject" size="50" value="<%=strSubject%>">
+			  <input type="text" name="subject" size="50" value="<%=rs("strSubject")%>">
 			</td>
 		  </tr>
 		  <tr>
 			<td align="center">내용</td>
 			<td>
-			  <textarea name="content" cols="50" rows="10"><%=strContent%></textarea>
+			  <textarea name="content" cols="50" rows="10"><%=rs("strContent")%></textarea>
 		   </td>
+		   <%
+				 rs.Close
+				 Set rs = Nothing
+				 DBHelper.Dispose
+				 Set DBHelper = Nothing
+		   %>
 		  </tr>
 		  <tr>
 			<td align="center">비밀번호</td>

@@ -1,29 +1,24 @@
+<!--#include File="DBHelper.asp"-->
+<!-- 
 <%
-      Option Explicit
-
-      Dim objDBConn, objRs
-      Dim strSQL 
-      Dim intSeq 
-      Dim strRealPassword, strPassword
+	  '=============================== 원래 소스 =======================
+	  
 
       intSeq = Request.QueryString("seq")
       strPassword = Request.Form("userPwd")
+	  
 
-      Set objDBConn = Server.CreateObject("ADODB.Connection")
-      Set objRs = Server.CreateObject("ADODB.RecordSet")
+	  'Set DBHelper = new clsDBHelper 	
+      'Set rs = DBHelper.ExecSQLReturnRS("SELECT strPassword FROM board WHERE inx = " & intSeq , Nothing, Nothing)
+      'strRealPassword = rs("strPassword")
 
-      objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
+      'rs.Close
+      'Set rs = Nothing
+      'DBHelper.Dispose
+      'Set DBHelper = Nothing
 
-      strSQL = "SELECT strPassword"
-      strSQL = strSQL & " FROM board"
-      strSQL = strSQL & " WHERE inx = " & intSeq
+      'If strRealPassword <> strPassword Then
 
-      objRs.Open strSQL, objDBConn
-      strRealPassword = objRs("strPassword")
-      objRs.Close
-      Set objRs = nothing
-
-      If strRealPassword <> strPassword Then
 %>
 <script language="javascript">
 
@@ -31,20 +26,59 @@
       history.back();
 
 </script>
+
 <%
-          Response.End
-      End If
 
-      strSQL = "DELETE FROM board"
-      strSQL = strSQL & " WHERE inx = " & intSeq
-
-      objDBConn.Execute strSQL
-      objDBConn.Close
-      Set objDBConn = nothing
+'		  Response.End
+'      End If
+'
+'      Set DBHelper = new clsDBHelper 
+'	  DBHelper.ExecSQL "DELETE FROM board WHERE inx='"& intSeq &"'" , Nothing , Nothing
+'	  
+'	  DBHelper.Dispose
+'      Set DBHelper = Nothing
 %>
+
 <script language="javascript">
 
       alert("삭제되었습니다");
       location.href="list.asp";
 
 </script>
+-->
+
+<%
+      Dim intSeq 
+
+      intSeq = Request.QueryString("seq")
+      strPassword = Request.Form("userPwd")
+
+	  Set DBHelper = new clsDBHelper 	
+  
+	  Dim paramInfo(1)
+	  paramInfo(0) = DBHelper.MakeParam("@IntSeq",adInteger,adParamInput,4, intSeq)
+	  paramInfo(1) = DBHelper.MakeParam("@Pwd",adVarWChar,adParamInput,20, strPassword)
+
+	  Set rs = DBHelper.ExecSPReturnRS("dbo.Board_Delete", paramInfo, Nothing)
+
+	  Select Case (rs(0))
+		 case 10
+		   response.write "<script>alert('비밀번호가 일치하지 않습니다');history.go(-1);</script>"
+		   rs.Close
+		   Set rs = Nothing
+		 case 20	
+			response.write "<script>alert('글이 존재하지 않습니다.');history.go(-1);</script>"
+			rs.close
+			Set rs = Nothing
+		 case 30	
+			response.write "<script>alert('삭제되었습니다');location.href='./list.asp';</script>"
+			rs.close
+			Set rs = Nothing 
+		 case Else :
+		   response.write "<script>alert('알수 없는 오류입니다.');history.go(-1);</script>"
+	  End Select
+
+	  DBHelper.Dispose
+	  Set DBHelper = Nothing
+%>
+

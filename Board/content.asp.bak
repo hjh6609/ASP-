@@ -1,64 +1,57 @@
-
+<!--#include File="DBHelper.asp"-->
 <%
-Option Explicit
+'//에러코드 시작 상단에 두고 
+On Error Resume Next
 
-Dim objDBConn
+'Session 
+If session("id") = "" Then
+	response.redirect "login.asp"
+End if
+
+Dim objDBConn 
 Dim objRs
 Dim strSQL 
-Dim strName , strEmail, strSubject,strContent,intSeq , WriteDate, WriteEnt, myid
+Dim strName , strSubject,strContent,intSeq , WriteDate, WriteEnt, myid
+Dim Co_seq, Co_name , Co_content ,Gotopage 
 
-Dim Gotopage
-GoTopage= request("GotoPage")
 
+GoTopage= Request.QueryString("page")
 intSeq	= Request.QueryString("seq")
 myid = Request.QueryString("myid")
 
+Set DBHelper = new clsDBHelper
 
-Set objDBConn = Server.CreateObject("ADODB.Connection")
-Set objRs = Server.CreateObject("ADODB.RecordSet")
+'글보기
+Dim paramInfo(0)
+paramInfo(0) = DBHelper.MakeParam("@IntSeq",adInteger,adParamInput,4, intSeq)
 
-objDBConn.Open = "Provider=SQLOLEDB;Data Source=(local);Initial Catalog=testDB;User ID=computer;Password=qlalfqjsgh!@#4;"
+Set rs = DBHelper.ExecSPReturnRS("dbo.Board_Content", paramInfo, Nothing)
 
-strSQL = "Update board Set WriteEnt = WriteEnt + 1"
-strSQL = strSQL & " Where inx = " & intSeq
+'에러가 있다면 메세지 보여주기 
+if err.number <> 0 then 
+	response.Write "<script>alert('조회하시려는 글 번호가 없습니다.\n이전페이지로 이동합니다.');history.go(-1);</script>"
+ElseIf intSeq = "" Then 
+	response.Write "<script>alert('조회하시려는 글 번호가 없습니다.\n이전페이지로 이동합니다.');history.go(-1);</script>"
+ElseIf rs(0) <> 10 Then 
+	strName = rs(0)
+	strSubject = rs(1)
+	strContent = rs(2)
+Else
+	response.write "<script>alert('조회하시려는 글 번호가 없습니다.\n이전페이지로 이동합니다.');history.go(-1);</script>"
+	response.End
+End If 
 
-Set objRs = objDBConn.execute(strSQL)
+rs.close
+Set rs = Nothing
 
-strSQL = "SELECT strID"                     ' objRs(0) - 이름
-strSQL = strSQL & ",strNotice"                 ' objRs(1) - 메일주소
-strSQL = strSQL & ",strSubject"               ' objRs(2) - 제목
-strSQL = strSQL & ",strContent"               ' objRs(3) - 내용
-strSQL = strSQL & ",WriteDate"               ' objRs(4) - 날짜
-strSQL = strSQL & ",WriteEnt"               ' objRs(5) - 조회수
-strSQL = strSQL & " FROM board"
-strSQL = strSQL & " WHERE inx = " + intSeq
+'댓글보기
+Dim paramInfo2(0)
+paramInfo2(0) = DBHelper.MakeParam("@IntSeq",adInteger,adParamInput,4, intSeq)
 
-objRs.Open strSQL, objDBConn
-
-strName = objRs(0)
-strEmail= objRs(1)
-strSubject = objRs(2)
-strContent = objRs(3)
-WriteDate = objRs(4)
-WriteEnt = objRs(5)
-
-objRs.close
-
-
- '현재글과 관계된 커멘트 읽어오기
-strSQL = "Select Co_name, Co_date, Co_Content from Comment where inx=" & intSeq
-Set objRs = objDBConn.execute(strSQL)
-
-Dim arrComment
-if Not objRs.EOF then
-  arrComment = objRs.GetString()
-End if
-objRs.close
-
-objDbConn.Close
-Set objDBConn = nothing
+Set rs = DBHelper.ExecSPReturnRS("dbo.Board_Comment", paramInfo2, Nothing)
 
 strContent = Replace(strContent, vbLf, vbLf & "<br>")
+
 %>
 <!DOCTYPE html>
 <head>
@@ -74,15 +67,28 @@ strContent = Replace(strContent, vbLf, vbLf & "<br>")
 <script src="../bootstrap-dist/js/ie10-viewport-bug-workaround.js"></script>
 
 <script>
+	
+	$(document).ready(function(){
+		//세션 값이 없으면(로그인이 안되어 있으면) 뒤로가기 못감.
+		if(session("id") = "")
+		{
+			history.forward(1);
+		}
+		else
+		{
+			location.href="/list.asp";
+		}
+	})
+	
 	function addComment()
 	{
 		//alert(1);
-		var name = document.frmMent.txtName.value;
-		if (CheckStr(name, " ", "")==0) {
-		  alert("이름을 입력해 주세요");
-		  document.frmMent.txtName.focus();
-		  return;
-		}
+		//var name = document.frmMent.txtName.value;
+		//if (CheckStr(name, " ", "")==0) {
+		//  alert("이름을 입력해 주세요");
+		//  document.frmMent.txtName.focus();
+		//  return;
+		//}
 		//alert(2);
 		var content = document.frmMent.txtContent.value;
 		if (CheckStr(content, " ", "")==0) {
@@ -113,7 +119,7 @@ strContent = Replace(strContent, vbLf, vbLf & "<br>")
 	<div class="header">
 		<nav>
 		<ul class="nav nav-pills pull-right">
-			<li role="presentation" class="active"><a href="/list.asp">Home</a></li>
+			<li role="presentation" class="active"><a href="/list.asp?myid="<%=myid%>>Home</a></li>
 			<li role="presentation"><a href="/logout.asp">LogOut</a></li>
 		</ul>
 		</nav>
@@ -133,10 +139,6 @@ strContent = Replace(strContent, vbLf, vbLf & "<br>")
 		</td>
 	</tr>
 	<tr>
-		<td>Email</td>
-		<td colspan="5"><a href="mailto:<%=strEmail%>"><%=strEmail%></a></td>
-	</tr>
-	<tr>
 		<td>제목</td>
 		<td colspan="3"><%=strSubject%></td>
 		<td>등록일</td>
@@ -154,51 +156,57 @@ strContent = Replace(strContent, vbLf, vbLf & "<br>")
 	<tr>
 		<td colspan="6" align="center">
 			<a href="edit.asp?seq=<%=intSeq%>">수정하기</a>
-			<a href="list.asp?gotopage=<%=gotopage%>">목록으로</a>
+			<a href="list.asp?page=<%=GoTopage%>">목록으로</a>
 			<a href="delete.asp?seq=<%=intSeq%>">삭제하기</a>
 		</td>
 	</tr>
 	</table>
-
-	<form name="frmMent" action="reply_ok.asp" Method="post">
+	<!-- --------------------------------------------- -->
+	<form name="frmMent" action="reply_ok.asp?page=<%=GoTopage%>" Method="post">
 	  <table width="700" bgcolor="slategray" cellspacing="1">	
 		<tr bgcolor="#eeeeee">
 		  <td colspan=2>댓글을 남겨주세요</td>
 		</tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr bgcolor="white">
-		  <INPUT class= "inputa" type="hidden" name= "GoTopage"value="<%=GoTopage%>">
-		  <INPUT class= "inputa" type="hidden" name= "board_idx"value="<%=intSeq%>">
-		  <td>이름 : <INPUT class="inputa" name="txtName" size="7"></td>
+		  <INPUT class= "inputa" type="hidden" name= "GoTopage" value="<%=GoTopage%>">
+		  <INPUT class= "inputa" type="hidden" name= "board_idx" value="<%=intSeq%>">
+		  <!-- <td>이름 : <INPUT class="inputa" name="txtName" size="7"></td> -->
+		  <td>이름 : <%=session("id")%></td>
 		  <td align="center">
-			멘트 : 
+			내용 : 
 			<INPUT class="inputa" name="txtContent" size="50" maxlength="200">
 			<Input class="buttona" type="button" onClick="addComment();" value="저장">
 		  </td>
 		</tr>
 	  </table>
 	</form>
-
-	<%
-	  if arrComment <> "" then
-		Dim arrRecord, arrColumn, inum
-		arrRecord = Split(arrComment,chr(13))
-	%>
-	  <br><font size=2><b>Comment</b></font>
+	<br><font size=2><b>Comment</b></font></br>
+	<p>――――――――――――――――――――――――――――</p>
 	  <table width="700" bgcolor="slategray" cellspacing="1" border="0">	
-	<% 
-	  for inum=0 to Ubound(arrRecord)-1
-		arrColumn = Split(arrRecord(inum), Chr(9))
-	%>
-		<tr bgcolor="white">
-		  <td><%= arrColumn(0)%>(<%=arrColumn(1)%>)</br><%=arrColumn(2)%>
-		  </td>
-		</tr>
-	  <%next %>
+		<!--Do-->
+		<% If rs.BOF or rs.EOF Then %>
+			<tr>
+				<td>등록된 댓글이 없습니다.</td>
+			</tr>
+		
+		<% Else 
+			Do Until rs.EOF %>
+				<tr bgcolor="white">  
+				  <td><b><%=rs("Co_name")%></b></br>내용 :<%=rs("Co_content")%>
+				  </td>
+				</tr>
+		<%
+				rs.MoveNext
+			Loop
+		End If	
+		rs.Close
+		Set rs = Nothing
+		DBHelper.Dispose
+		Set DBHelper = Nothing
+		%>
+		<!--Loop-->
 	  </table>
-	<%
-	end if%>
-
 	<footer class="footer">
 	<p>&copy; ASP Board. 201512   By.Hanjihyeon :-)</p>
 	</footer>
