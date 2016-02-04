@@ -1,0 +1,50 @@
+<%@Language="VBScript" CODEPAGE="65001" %>
+<!--#include File="DBHelper.asp"-->
+<%
+      Response.CharSet="utf-8"
+	  Session.codepage="65001"
+	  Response.codepage="65001"
+	  Response.ContentType="text/html;charset=utf-8"
+	  
+	  Dim intSeq ,Co_Seq , Content
+
+      'intSeq = Request.QueryString("seq")
+	  'Co_Seq = Request.QueryString("co_seq")
+	  'Content = Request.QueryString("content")
+
+	  intSeq  = Request.Form("seq")
+	  Co_Seq  = Request.Form("co_seq")
+	  Content  = Request.Form("content")
+	  
+	  'response.write intSeq &"</br>"
+	  'response.write Co_Seq &"</br>"
+	  'response.write Content &"</br>"
+	  'response.End 
+
+	  Set DBHelper = new clsDBHelper 	
+  
+	  Dim paramInfo(2)
+	  paramInfo(0) = DBHelper.MakeParam("@IntSeq",adInteger,adParamInput,4, intSeq)
+	  paramInfo(1) = DBHelper.MakeParam("@Coseq",adInteger,adParamInput,4, Co_Seq)
+	  paramInfo(2) = DBHelper.MakeParam("@Content",adVarWChar,adParamInput,100, Content)
+
+	  Set rs = DBHelper.ExecSPReturnRS("dbo.Board_Comment_Edit", paramInfo, Nothing)
+	  
+	  Select Case (rs(0))
+		 case 20	
+			response.write "20"  '글이 존재하지 않습니다.
+			rs.close
+			Set rs = Nothing
+		 case 10	
+			'response.write "10&" & Content    '& Content '수정성공
+			response.write "10"    '& Content '수정성공
+			rs.close
+			Set rs = Nothing 
+		 case Else :
+		   response.write "40"      '알수 없는 오류
+	  End Select
+
+	  DBHelper.Dispose
+	  Set DBHelper = Nothing
+%>
+
