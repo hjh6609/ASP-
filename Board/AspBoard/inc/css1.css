@@ -1,0 +1,54 @@
+/// Customizing Style
+
+.con 		{font-family:µ¸¿ò,±¼¸²;color:#535353; font-size: 12px; line-height:16px;}
+.input      {font-family:"µ¸¿ò", "±¼¸²"; font-size:12px; COLOR:#999999; border:1px SOLID;; border-color: #999999 999999 999999}
+.g          {font-family:µ¸¿ò,±¼¸²; font-size:11px; color:#989898;}
+.t          {font-family:"Verdana", "Helvetica"; font-size:11px; color:#003366;}
+.t1          {font-family:µ¸¿ò,±¼¸²; font-size:11px; color:#034F67;}
+.t2          {font-family:Verdana, Helvetica; font-size:10px; color:#BEA12C;}
+.t3          {font-family:Verdana, Helvetica; font-size:10px; color:#034F67}
+.e           {font-family:µ¸¿ò,±¼¸²; font-size:13pt; color:#C59941; line-height:22px;}
+
+
+
+/// Reserved Tag Style
+
+SELECT  {background-color : #ffffff;}
+P		    {font-family:µ¸¿ò,±¼¸²;color:#535353; font-size: 12px; line-height:16px;}
+body,td	            { FONT-SIZE: 9pt; COLOR: #000000; LINE-HEIGHT: 150%; FONT-FAMILY: ±¼¸² }
+
+A:link		    {color:#333333; text-decoration:none; font-family:"µ¸¿ò", "±¼¸²"; font-size: 12px}
+A:visited		{color:#333366; text-decoration:none; font-family:"µ¸¿ò", "±¼¸²"; font-size: 12px}
+A:hover 		{color:#006699; font-family:"µ¸¿ò", "±¼¸²"; font-size: 12px}
+
+TEXTAREA
+{
+	BORDER-BOTTOM: #454545 0px solid;
+	BORDER-LEFT: #454545 0px solid;
+	BORDER-RIGHT: #454545 0px solid;
+	BORDER-TOP: #454545 0px solid;
+	COLOR: #454545;
+	FONT-FAMILY: ±¼¸², Gulim;
+	FONT-SIZE: 9pt ;
+	scrollbar-face-color: #ffffff; 
+	scrollbar-shadow-color: #000000; 
+	scrollbar-highlight-color: #000000; 
+	scrollbar-3dlight-color: #ffffff; 
+	scrollbar-darkshadow-color: #ffffff; 
+	scrollbar-track-color: #EEEEEE; 
+	scrollbar-arrow-color: #000000;
+}
+.input02 {  font-family: " µ¸¿ò", " µ¸¿òÃ¼"; font-size: 12px; color: #000000; border: 1px #000000 solid}
+.t4 {  font-family: "µ¸¿ò", "µ¸¿òÃ¼"; font-size: 12px; line-height: 120%; color: #003366}
+.br_1 {  font-family: "µ¸¿ò", "µ¸¿òÃ¼"; font-size: 12px; line-height: 130%; color: #333333}
+.line_1 {  color: #FF0000; text-decoration: underline; font-family: "µ¸¿ò", "µ¸¿òÃ¼"}
+.b {
+	font-family: "µ¸¿ò", "µ¸¿òÃ¼";
+	font-size: 12px;
+	color: 003366;
+}
+.t0 {
+	font-family: "Verdana", "Helvetica", "s";
+	font-size: 11px;
+	color: #333333;
+}

@@ -1,0 +1,52 @@
+<!Doctype html>
+<head>
+	<title>회원가입</title>
+	<!-- Bootstrap core CSS -->
+    <link href="../BootStrap/bootstrap-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="../BootStrap/bootstrap-dist/js/jumbotron-narrow.css" rel="stylesheet">
+
+    <script src="../BootStrap/bootstrap-dist/js/ie-emulation-modes-warning.js"></script>
+
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../bootstrap-dist/js/ie10-viewport-bug-workaround.js"></script>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+</head>
+	<body>
+	 <div class="container">
+		  <div class="header">
+			 <nav>
+				  <ul class="nav nav-pills pull-right">
+					<li role="presentation"><a href="/Member.asp">Home</a></li>
+					<li role="presentation"><a href="javascript:alert('2')">About</a></li>
+					<li role="presentation"><a href="javascript:alert('3')">Contact</a></li>
+					<li role="presentation" class="active"><a href="/Member.asp">Sign Up</a></li>
+				  </ul>
+			 </nav>
+				<h3 class="text-muted">First ASP BOARD</h3>
+			</div>
+			<form name="registForm" method= "post" action="Member_ok.asp">
+				<h5 align ="center">회원가입</h5>
+				<table class="table" style="width:500px;" align="center">
+					<tr>
+						<td>아이디</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>닉이름</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>비밀번호</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>하고싶은말</td>
+						<td></td>
+					</tr>
+				</table>
+			</form>
+	   </div>
+	</body>
+</html>
+
